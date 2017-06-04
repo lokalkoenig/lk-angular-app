@@ -1,0 +1,55 @@
+
+
+<div class="jumbotron jumbotron-fluid clearfix">
+  <div class="container-fluid">
+    <img src="{{data.thumbnail}}" class="float-left" style="margin-right: 20px; max-width: 325px;" />
+
+    <h1 class="display-4">{{data.title}}</h1>
+
+
+    <p class="lead"><span class="text-muted">{{data.sid}}</span> {{data.subtitle}}</p>
+    <p>{{data.teaser}}</p>
+
+    <a (click)="markKampagne()" class="btn btn-outline-success">
+      <div *ngIf="data.marked else mark" >
+        <i class="fa fa-check-square-o" aria-hidden="true"></i> Kampagne vorgemerkt
+      </div>  
+      <ng-template #mark>
+        <i class="fa fa-square-o" aria-hidden="true"></i> Kampagne vormerken
+      </ng-template>
+   </a>
+
+  </div>
+</div>
+
+<div class="container-fluid container-fluid-max">
+  <div class="row">
+    <div class="col-12 col-sm-6">
+      <div class="card card-headline-overlayed">
+        <img class="card-img-top" src="{{data.print_mockup}}" alt="" />
+        <div class="card-block">
+           <h3 class="display-5">{{data.print_title}}</h3>
+          <p class="card-text">{{data.print_text}}</p>
+          <p class="card-text text-muted">Verfügbar in: Gelb, Grün, Blau</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6">
+      <div class="card card-headline-overlayed">
+        <img class="card-img-top" src="{{data.online_mockup}}" alt="" />
+        <div class="card-block">
+          <h3 class="display-5">{{data.online_title}}</h3>
+          <p class="card-text">{{data.online_text}}</p>
+          <p class="card-text text-muted">Verfügbar in: Gelb, Grün, Blau</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="data.mlt" class="jumbotron jumbotron-fluid clearfix" style="margin-top: 0; margin-bottom: 0;">
+  <div class="container-fluid">
+    <h2 class="display-5">Ähnliche Kampagnen</h2>
+    <kampagnen-view [kampagnen]="data.mlt"></kampagnen-view>
+  </div>
+</div>

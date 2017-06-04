@@ -1,0 +1,64 @@
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Kampagnensuche</h1>
+    <p>{{_resultset.count}} Kampagnen / {{state}}</p>
+
+    <ul class="list-inline list-inline-remove-links">
+      <li *ngFor="let link of _resultset.search_links" class="list-inline-item">
+        <div *ngIf="link.type == 'term'">
+          <a href="#" class="remove-link" (click)="toggleFacetItem(link.id)">{{link.label}}
+            <span>&times;</span>
+          </a>
+        </div>
+
+        <div *ngIf="link.type == 'search'">
+          <a href="#" class="remove-link" (click)="resetSearchTerm()">{{link.label}}
+            <span>&times;</span>
+          </a>
+        </div>
+
+
+      </li>
+    </ul>
+    
+  </div>
+</div>
+
+
+<div class="container-fluid">
+     <div class="row">
+      <div class="col">
+        <p>
+          <label for="search-box">Suchwort: </label>
+          <input #searchBox id="search-box" type="search" (keyup)="search(searchBox.value)" value="{{last_search_term}}" class="form-control" placeholder="Geben Sie hier Schlagworte ein" aria-describedby="sizing-addon1">
+        </p>
+       
+        <h3>Terms</h3>
+        <facets-component (facetClick)="toggleFacetItem($event)" [facetitems]="_resultset.facets"></facets-component>
+      </div>
+
+      <div class="col-12 col-lg-9 col-xs-12 col-sm-12">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a href="#" class="nav-link" [class.active]="sort_order === 'relevance'" (click)="setHashComponent('sort', 'relevance')">Relevanz</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" [class.active]="sort_order === 'date'" (click)="setHashComponent('sort', 'date')">Neueste</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" [class.active]="sort_order === 'likes'" (click)="setHashComponent('sort', 'likes')">Beliebtheit</a>
+          </li>
+        </ul>
+
+        <hr />
+
+        <kampagnen-view [kampagnen]="_resultset.kampagnen"></kampagnen-view>
+
+        <div *ngIf="_resultset.count > pager_size" class="pager text-center">
+          <hr />
+          <ngb-pagination [collectionSize]="_resultset.count" [maxSize]="5" [pageSize]="pager_size" [(page)]="page" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+        </div>
+      </div>
+    </div>
